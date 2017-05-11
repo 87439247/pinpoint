@@ -29,6 +29,9 @@
         <module>jdk-http</module>
         <module>json-lib</module>
         <module>redis</module>
+        <module>redisson</module>
+        <module>resteasy</module>
+        <module>rocketmq</module>
         <module>tomcat</module>
         <module>thrift</module>
         <module>user</module>
@@ -131,6 +134,21 @@
         <dependency>
             <groupId>com.navercorp.pinpoint</groupId>
             <artifactId>pinpoint-redis-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.navercorp.pinpoint</groupId>
+            <artifactId>pinpoint-redisson-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.navercorp.pinpoint</groupId>
+            <artifactId>pinpoint-resteasy-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.navercorp.pinpoint</groupId>
+            <artifactId>pinpoint-rocketmq-plugin</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
