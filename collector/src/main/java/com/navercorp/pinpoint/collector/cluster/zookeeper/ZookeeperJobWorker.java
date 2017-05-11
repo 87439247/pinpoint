@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,11 +41,11 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * @Author Taejin Koo
+ * @author Taejin Koo
  */
 public class ZookeeperJobWorker implements Runnable {
 
-    private static final Charset charset = Charset.forName("UTF-8");
+    private static final Charset charset = StandardCharsets.UTF_8;
 
     private static final String PINPOINT_CLUSTER_PATH = "/pinpoint-cluster";
     private static final String PINPOINT_COLLECTOR_CLUSTER_PATH = PINPOINT_CLUSTER_PATH + "/collector";
@@ -393,7 +394,7 @@ public class ZookeeperJobWorker implements Runnable {
     }
 
     private String addIfAbsentContents(String originalContent, List<String> addContentCandidateList) {
-        String[] splittedOriginalContent = originalContent.split(PROFILER_SEPARATOR);
+        List<String> splittedOriginalContent = com.navercorp.pinpoint.common.util.StringUtils.tokenizeToStringList(originalContent, PROFILER_SEPARATOR);
 
         List<String> addContentList = new ArrayList<>(addContentCandidateList.size());
         for (String addContentCandidate : addContentCandidateList) {
@@ -440,8 +441,8 @@ public class ZookeeperJobWorker implements Runnable {
     private String removeIfExistContents(String originalContent, List<String> removeContentCandidateList) {
         StringBuilder newContent = new StringBuilder(originalContent.length());
 
-        String[] splittedOriginalContent = originalContent.split(PROFILER_SEPARATOR);
-        Iterator<String> originalContentIterator = Arrays.asList(splittedOriginalContent).iterator();
+        List<String> splittedOriginalContent = com.navercorp.pinpoint.common.util.StringUtils.tokenizeToStringList(originalContent, PROFILER_SEPARATOR);
+        Iterator<String> originalContentIterator = splittedOriginalContent.iterator();
         while (originalContentIterator.hasNext()) {
             String eachContent = originalContentIterator.next();
             if (StringUtils.isBlank(eachContent)) {
