@@ -18,6 +18,7 @@ package com.navercorp.pinpoint.plugin.redisson;
 import java.lang.reflect.Modifier;
 import java.security.ProtectionDomain;
 
+import com.navercorp.pinpoint.bootstrap.config.ProfilerConfig;
 import com.navercorp.pinpoint.bootstrap.instrument.InstrumentClass;
 import com.navercorp.pinpoint.bootstrap.instrument.InstrumentException;
 import com.navercorp.pinpoint.bootstrap.instrument.InstrumentMethod;
@@ -47,33 +48,14 @@ public class RedissonPlugin implements ProfilerPlugin, TransformTemplateAware {
 
     @Override
     public void setup(ProfilerPluginSetupContext context) {
-        addRedissonClassEditors();
+        boolean enable = context.getConfig().readBoolean("profiler.redisson", true);
+        if (enable) {
+            addRedissonClassEditors();
+        }
     }
 
     // Jedis & BinaryJedis
     private void addRedissonClassEditors() {
-//        //org.redisson.config.Config
-//        transformTemplate.transform("org.redisson.client.RedisClient", new TransformCallback() {
-//            @Override
-//            public byte[] doInTransform(Instrumentor instrumentor, ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws InstrumentException {
-//                InstrumentClass target = instrumentor.getInstrumentClass(classLoader, className, classfileBuffer);
-//                target.addField(RedissonConstants.END_POINT_ACCESSOR);
-//                final InstrumentMethod constructorEditorBuilderArg1 = target.getConstructor(
-//                        "io.netty.util.Timer",
-//                        "java.util.concurrent.ExecutorService",
-//                        "io.netty.channel.EventLoopGroup",
-//                        "java.lang.Class",
-//                        "java.lang.String",
-//                        "int",
-//                        "int",
-//                        "int"
-//                );
-//                if (constructorEditorBuilderArg1 != null) {
-//                    constructorEditorBuilderArg1.addInterceptor("com.navercorp.pinpoint.plugin.redisson.interceptor.RedissonClientConstructorInterceptor");
-//                }
-//                return target.toBytecode();
-//            }
-//        });
 
         //org.redisson.config.Config
         transformTemplate.transform("org.redisson.spring.cache.RedissonCache", new TransformCallback() {
